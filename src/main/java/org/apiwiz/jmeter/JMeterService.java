@@ -56,12 +56,12 @@ public class JMeterService {
     private void attachSummaryResultCollector(HashTree testPlanTree, String csvOutputPath) {
         Summariser summariser = new Summariser("summary");
 
-        // Create a configuration to disable saving of each sample (we only want summary)
+        // Create a configuration to disable saving of each sample
         SampleSaveConfiguration saveConfig = new SampleSaveConfiguration();
         saveConfig.setTime(true);
         saveConfig.setLatency(true);
         saveConfig.setTimestamp(true);
-        saveConfig.setSuccess(true); // <-- You need this
+        saveConfig.setSuccess(true);
         saveConfig.setLabel(true);
         saveConfig.setCode(true);
         saveConfig.setMessage(true);
@@ -71,9 +71,7 @@ public class JMeterService {
         saveConfig.setSentBytes(true);
         saveConfig.setUrl(true);
         saveConfig.setIdleTime(true);
-        saveConfig.setConnectTime(true); // Optional, useful for network latency
-
-        // Optionally keep these false:
+        saveConfig.setConnectTime(true);
         saveConfig.setAssertions(false);
         saveConfig.setResponseData(false);
         saveConfig.setSamplerData(false);
@@ -91,8 +89,6 @@ public class JMeterService {
         collector.setFilename(csvOutputPath);
 
         testPlanTree.add(testPlanTree.getArray()[0], collector);
-
-        System.out.println("JMeter summariser initialized. Summary will be printed to console.");
     }
 
     private void runTest(HashTree testPlanTree) {

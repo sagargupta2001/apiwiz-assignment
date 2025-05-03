@@ -34,7 +34,7 @@
                 <stringProp name="Argument.value">{&#xd;
   &quot;apiMethod&quot;: &quot;GET&quot;,&#xd;
   &quot;requestDTO&quot;: {&#xd;
-    &quot;url&quot;: &quot;https://jsonplaceholder.typicode.com/users/1?_delay=5000&quot;,&#xd;
+    &quot;url&quot;: &quot;https://jsonplaceholder.typicode.com/users/1?_delay=10000&quot;,&#xd;
     &quot;headerVariables&quot;: {&#xd;
       &quot;Content-Type&quot;: &quot;application/json&quot;&#xd;
     },&#xd;
@@ -42,7 +42,7 @@
     &quot;requestBody&quot;: null,&#xd;
     &quot;params&quot;: []&#xd;
   },&#xd;
-  &quot;timeout&quot;: 5500&#xd;
+  &quot;timeout&quot;: 11000&#xd;
 }&#xd;
 </stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
