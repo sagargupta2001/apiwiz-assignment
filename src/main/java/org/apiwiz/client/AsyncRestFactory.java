@@ -1,5 +1,6 @@
 package org.apiwiz.client;
 
+import io.smallrye.mutiny.TimeoutException;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.mutiny.core.buffer.Buffer;
@@ -12,6 +13,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apiwiz.annotations.AsyncClient;
+import org.apiwiz.error.RequestTimeoutException;
 import org.apiwiz.model.ApiMethod;
 import org.apiwiz.model.RequestDTO;
 
@@ -40,8 +42,16 @@ public class AsyncRestFactory implements ApiFactory<Uni<HttpResponse<Buffer>>> {
         return request.send()
                 .onItem().transform(response -> response)
                 .onFailure()
-                .recoverWithUni(throwable -> Uni.createFrom()
-                        .failure(new RuntimeException("Request failed: " + throwable.getMessage())));
+                .recoverWithUni(throwable -> {
+                    if (isTimeout(throwable)) {
+                        return Uni.createFrom().failure(
+                                new RequestTimeoutException("Request timed out", throwable)
+                        );
+                    }
+                    return Uni.createFrom().failure(
+                            new RuntimeException("Request failed: " + throwable.getMessage(), throwable)
+                    );
+                });
     }
 
     private HttpRequest<Buffer> createRequest(WebClient client, ApiMethod apiMethod, RequestDTO requestDTO) {
@@ -64,4 +74,11 @@ public class AsyncRestFactory implements ApiFactory<Uni<HttpResponse<Buffer>>> {
             }
         }
     }
+
+    private boolean isTimeout(Throwable throwable) {
+        return throwable instanceof TimeoutException ||
+                throwable.getCause() instanceof TimeoutException ||
+                throwable.getMessage().toLowerCase().contains("timeout");
+    }
+
 }
