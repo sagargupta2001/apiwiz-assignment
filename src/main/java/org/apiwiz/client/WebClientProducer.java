@@ -10,6 +10,11 @@ import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class WebClientProducer {
+    private static final String SSL_ENABLED = "SSL_ENABLED";
+    private static final String KEYSTORE_PATH = "KEYSTORE_PATH";
+    private static final String KEYSTORE_PASSWORD = "KEYSTORE_PASSWORD";
+    private static final String TRUSTSTORE_PATH = "TRUSTSTORE_PATH";
+    private static final String TRUSTSTORE_PASSWORD = "TRUSTSTORE_PASSWORD";
 
     @Inject
     Vertx vertx;
@@ -17,17 +22,17 @@ public class WebClientProducer {
     @Produces
     public WebClient webClient() {
         // Retrieve SSL configuration dynamically
-        boolean sslEnabled = Boolean.parseBoolean(System.getenv("SSL_ENABLED"));
+        boolean sslEnabled = Boolean.parseBoolean(System.getenv(SSL_ENABLED));
 
         WebClientOptions options = new WebClientOptions()
                 .setDefaultHost("localhost")
                 .setDefaultPort(8080);
 
         if (sslEnabled) {
-            String keystorePath = System.getenv("KEYSTORE_PATH");
-            String keystorePassword = System.getenv("KEYSTORE_PASSWORD");
-            String truststorePath = System.getenv("TRUSTSTORE_PATH");
-            String truststorePassword = System.getenv("TRUSTSTORE_PASSWORD");
+            String keystorePath = System.getenv(KEYSTORE_PATH);
+            String keystorePassword = System.getenv(KEYSTORE_PASSWORD);
+            String truststorePath = System.getenv(TRUSTSTORE_PATH);
+            String truststorePassword = System.getenv(TRUSTSTORE_PASSWORD);
 
             // Enable SSL
             options.setSsl(true).setTrustAll(false);
