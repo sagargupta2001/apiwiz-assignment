@@ -7,20 +7,30 @@ import io.vertx.mutiny.ext.web.client.HttpRequest;
 import io.vertx.mutiny.ext.web.client.HttpResponse;
 import io.vertx.mutiny.ext.web.client.WebClient;
 import io.vertx.mutiny.core.Vertx;
+import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apiwiz.api.annotations.AsyncClient;
 import org.apiwiz.model.ApiMethod;
 import org.apiwiz.model.RequestDTO;
 
 import java.util.Map;
 
 @ApplicationScoped
-public class AsyncRestFactory implements ApiFactory {
+@AsyncClient
+public class AsyncRestFactory implements ApiFactory<Uni<HttpResponse<Buffer>>> {
 
     @Inject
     Vertx vertx;
 
-    public Uni<HttpResponse<Buffer>> executeRequest(ApiMethod apiMethod, RequestDTO requestDTO, int timeout) {
+    @Override
+    public Uni<HttpResponse<Buffer>> executeRequest(
+            ApiMethod apiMethod,
+            RequestDTO requestDTO,
+            @Nullable SSLConnectionSocketFactory sslConnectionSocketFactory,
+            int timeout
+    ) {
         WebClient client = WebClient.create(vertx);
         HttpRequest<Buffer> request = createRequest(client, apiMethod, requestDTO);
 
