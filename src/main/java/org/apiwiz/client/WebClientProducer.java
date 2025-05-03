@@ -21,7 +21,6 @@ public class WebClientProducer {
 
     @Produces
     public WebClient webClient() {
-        // Retrieve SSL configuration dynamically
         boolean sslEnabled = Boolean.parseBoolean(System.getenv(SSL_ENABLED));
 
         WebClientOptions options = new WebClientOptions()
@@ -34,7 +33,6 @@ public class WebClientProducer {
             String truststorePath = System.getenv(TRUSTSTORE_PATH);
             String truststorePassword = System.getenv(TRUSTSTORE_PASSWORD);
 
-            // Enable SSL
             options.setSsl(true).setTrustAll(false);
 
             if (keystorePath != null && keystorePassword != null) {
@@ -46,8 +44,8 @@ public class WebClientProducer {
             }
         } else {
             // If SSL is disabled, make sure trust is not set
-            options.setSsl(false)
-                    .setTrustAll(true); // Accept all certificates in non-SSL mode (be cautious in prod)
+            // Accept all certificates in non-SSL mode (be cautious in prod)
+            options.setSsl(false).setTrustAll(true);
         }
 
         return WebClient.create(vertx, options);

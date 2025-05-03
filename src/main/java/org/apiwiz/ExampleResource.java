@@ -18,9 +18,8 @@ public class ExampleResource {
     @GET
     @Path("/delay")
     public Response delayed() throws InterruptedException {
-        Thread.sleep(5000); // Delay for 5 seconds
+        Thread.sleep(3000); // Delay for 5 seconds
         return Response.ok("Done").build();
     }
-
 }
 

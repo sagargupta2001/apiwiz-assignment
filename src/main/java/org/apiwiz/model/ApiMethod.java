@@ -4,7 +4,9 @@ public enum ApiMethod {
     GET("GET"),
     POST("POST"),
     PUT("PUT"),
-    DELETE("DELETE");
+    PATCH("PATCH"),
+    DELETE("DELETE"),
+    OPTIONS("OPTIONS");
 
     private final String method;
 
