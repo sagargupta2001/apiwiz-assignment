@@ -1,4 +1,4 @@
-package org.apiwiz.api;
+package org.apiwiz.client;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.HttpMethod;
@@ -11,7 +11,7 @@ import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apiwiz.api.annotations.AsyncClient;
+import org.apiwiz.annotations.AsyncClient;
 import org.apiwiz.model.ApiMethod;
 import org.apiwiz.model.RequestDTO;
 

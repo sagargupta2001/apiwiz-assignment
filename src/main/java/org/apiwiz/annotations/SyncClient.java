@@ -1,4 +1,4 @@
-package org.apiwiz.api.annotations;
+package org.apiwiz.annotations;
 
 import jakarta.inject.Qualifier;
 import java.lang.annotation.Retention;

@@ -1,10 +1,10 @@
-package org.apiwiz.api;
+package org.apiwiz.client;
 
 import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apiwiz.api.annotations.SyncClient;
+import org.apiwiz.annotations.SyncClient;
 import org.apiwiz.http.HttpDeleteWithBody;
 import org.apiwiz.model.ApiMethod;
 import org.apiwiz.model.RequestDTO;

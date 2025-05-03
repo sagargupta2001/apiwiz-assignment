@@ -1,4 +1,4 @@
-package org.apiwiz.api;
+package org.apiwiz.client;
 
 import jakarta.annotation.Nullable;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;

@@ -1,62 +1,191 @@
-# demo
+# 🔁 APIWIZ Sync/Async Invoker
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+A lightweight Quarkus-based service to synchronously and asynchronously invoke external APIs using configurable HTTP methods, request bodies, headers, and timeouts.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## 📦 Project Structure
 
-## Running the application in dev mode
+```
+sagargupta2001-apiwiz-assignment/
+├── README.md
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── .dockerignore
+├── gradle/
+│   └── wrapper/
+│       └── gradle-wrapper.properties
+├── src/
+│   ├── main/
+│   │   ├── docker/
+│   │   │   ├── Dockerfile.jvm
+│   │   │   ├── Dockerfile.legacy-jar
+│   │   │   ├── Dockerfile.native
+│   │   │   └── Dockerfile.native-micro
+│   │   ├── java/
+│   │   │   └── org/
+│   │   │       └── apiwiz/
+│   │   │           ├── ApiwizApplication.java
+│   │   │           ├── annotations/
+│   │   │           │   ├── AsyncClient.java
+│   │   │           │   └── SyncClient.java
+│   │   │           ├── api/ -> Contains actual JAX-RS resources
+│   │   │           │   ├── AsyncApiResource.java
+│   │   │           │   ├── SyncApiResource.java
+│   │   │           ├── client/ -> Factories or service clients
+│   │   │           │   ├── AsyncRestFactory.java
+│   │   │           │   ├── SyncRestFactory.java
+│   │   │           │   ├── ApiFactory.java
+│   │   │           │   └── WebClientProducer.java
+│   │   │           ├── http/ -> Low-level HTTP helpers
+│   │   │           │   └── HttpDeleteWithBody.java
+│   │   │           ├── model/ -> DTOs and Enums
+│   │   │           │   ├── ApiMethod.java
+│   │   │           │   ├── RequestDTO.java
+│   │   │           │   ├── RequestDTOWrapper.java
+│   │   │           │   └── RequestWrapper.java
+│   │   │           └── util/ -> Utility Classes
+│   │   │               └── RequestUtils.java
+│   │   └── resources/
+│   │       └── application.properties
+```
 
-You can run your application in dev mode that enables live coding using:
+---
 
-```shell script
+## 🚀 Features
+
+- 🔁 **Sync and Async HTTP invocation**
+- 📡 Supports all HTTP methods (GET, POST, PUT, PATCH, DELETE, OPTIONS)
+- 🧠 Pluggable request factory (`ApiFactory`) interface
+- ⏱️ Timeout control per request
+- 🪪 Ready for testing and native builds with Quarkus
+- 🧑‍💻 SSL Support
+---
+
+## 🛠️ Technologies
+
+- [Quarkus](https://quarkus.io/) (JAX-RS, CDI)
+- Jakarta REST & Dependency Injection
+- Vert.x WebClient (for async calls)
+- Java 17+
+- Gradle
+
+---
+
+## 🧑‍💻 API Usage
+
+### 🔗 `POST /api/sync/invoke`
+
+Invokes an HTTP request **synchronously**.
+
+**Request Body:**
+
+```json
+{
+  "apiMethod": "GET",
+  "requestDTO": {
+    "url": "http://localhost:8080/delay",
+    "headerVariables": {
+      "Content-Type": "application/json"
+    },
+    "bodyType": "application/json",
+    "requestBody": null,
+    "params": []
+  },
+  "timeout": 3500
+}
+
+```
+
+**Response:**
+- Returns raw response from the external API with status code and body.
+
+---
+
+### 🔗 `POST /api/async/invoke`
+
+Invokes an HTTP request **asynchronously**.
+
+**Request Body:**
+
+```json
+{
+  "apiMethod": "GET",
+  "requestDTO": {
+    "url": "http://localhost:8080/delay",
+    "headerVariables": {
+      "Content-Type": "application/json"
+    },
+    "bodyType": "application/json",
+    "requestBody": null,
+    "params": []
+  },
+  "timeout": 3500
+}
+
+```
+
+**Response:**
+- Returns raw response from the external API with status code and body.
+
+---
+
+## 🚪 Running the App
+
+### 🏗️ Build
+
+```bash
+./gradlew clean build
+```
+
+### 🏃 Run (Dev Mode)
+
+```bash
 ./gradlew quarkusDev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+### 🐳 Docker Build
 
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./gradlew build
+```bash
+./gradlew build -Dquarkus.package.type=uber-jar
+docker build -f src/main/docker/Dockerfile.jvm -t apiwiz-invoker .
+docker run -p 8080:8080 apiwiz-invoker
 ```
 
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `build/quarkus-app/lib/` directory.
+---
 
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
+## ✅ Tests
 
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./gradlew build -Dquarkus.package.jar.type=uber-jar
+```bash
+./gradlew test
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
+Run integration tests:
 
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./gradlew build -Dquarkus.native.enabled=true
+```bash
+./gradlew integrationTest
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+Run native image tests:
 
-```shell script
-./gradlew build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true
+```bash
+./gradlew nativeTest
 ```
 
-You can then execute your native executable with: `./build/demo-1.0-SNAPSHOT-runner`
+---
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/gradle-tooling>.
+## 📁 Extending the Project
 
-## Provided Code
+- Add custom interceptors, retry logic, or circuit breakers.
+- Support multipart/form-data or OAuth2 flows.
+- Swap out `WebClient` with `HttpClient` for full synchronous blocking behavior.
 
-### REST
+---
 
-Easily start your REST Web Services
+## 🤛️ Author
+Made with ❤️ by Sagar Gupta
 
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+(probably upcoming SDE at APIWIZ) 😄
+
+
+
+
