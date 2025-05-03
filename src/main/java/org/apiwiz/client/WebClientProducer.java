@@ -15,6 +15,8 @@ public class WebClientProducer {
     private static final String KEYSTORE_PASSWORD = "KEYSTORE_PASSWORD";
     private static final String TRUSTSTORE_PATH = "TRUSTSTORE_PATH";
     private static final String TRUSTSTORE_PASSWORD = "TRUSTSTORE_PASSWORD";
+    private static final String DEFAULT_HOST = "localhost";
+    private static final int DEFAULT_PORT = 8080;
 
     @Inject
     Vertx vertx;
@@ -24,8 +26,8 @@ public class WebClientProducer {
         boolean sslEnabled = Boolean.parseBoolean(System.getenv(SSL_ENABLED));
 
         WebClientOptions options = new WebClientOptions()
-                .setDefaultHost("localhost")
-                .setDefaultPort(8080);
+                .setDefaultHost(DEFAULT_HOST)
+                .setDefaultPort(DEFAULT_PORT);
 
         if (sslEnabled) {
             String keystorePath = System.getenv(KEYSTORE_PATH);
