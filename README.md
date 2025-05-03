@@ -6,47 +6,17 @@ A lightweight Quarkus-based service to synchronously and asynchronously invoke e
 
 ```
 sagargupta2001-apiwiz-assignment/
-├── README.md
-├── gradle.properties
-├── gradlew
-├── gradlew.bat
-├── .dockerignore
-├── gradle/
-│   └── wrapper/
-│       └── gradle-wrapper.properties
 ├── src/
 │   ├── main/
-│   │   ├── docker/
-│   │   │   ├── Dockerfile.jvm
-│   │   │   ├── Dockerfile.legacy-jar
-│   │   │   ├── Dockerfile.native
-│   │   │   └── Dockerfile.native-micro
 │   │   ├── java/
 │   │   │   └── org/
 │   │   │       └── apiwiz/
-│   │   │           ├── ApiwizApplication.java
-│   │   │           ├── annotations/
-│   │   │           │   ├── AsyncClient.java
-│   │   │           │   └── SyncClient.java
-│   │   │           ├── api/ -> Contains actual JAX-RS resources
-│   │   │           │   ├── AsyncApiResource.java
-│   │   │           │   ├── SyncApiResource.java
-│   │   │           ├── client/ -> Factories or service clients
-│   │   │           │   ├── AsyncRestFactory.java
-│   │   │           │   ├── SyncRestFactory.java
-│   │   │           │   ├── ApiFactory.java
-│   │   │           │   └── WebClientProducer.java
-│   │   │           ├── http/ -> Low-level HTTP helpers
-│   │   │           │   └── HttpDeleteWithBody.java
-│   │   │           ├── model/ -> DTOs and Enums
-│   │   │           │   ├── ApiMethod.java
-│   │   │           │   ├── RequestDTO.java
-│   │   │           │   ├── RequestDTOWrapper.java
-│   │   │           │   └── RequestWrapper.java
-│   │   │           └── util/ -> Utility Classes
-│   │   │               └── RequestUtils.java
-│   │   └── resources/
-│   │       └── application.properties
+│   │   │           ├── annotations
+│   │   │           ├── api -> Contains actual JAX-RS resources
+│   │   │           ├── client -> Factories or service clients
+│   │   │           ├── http -> Low-level HTTP helpers
+│   │   │           ├── model -> DTOs and Enums
+│   │   │           └── util -> Utility Classes
 ```
 
 ---
